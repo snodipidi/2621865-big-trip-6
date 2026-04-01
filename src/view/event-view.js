@@ -1,6 +1,7 @@
-import AbstractView from './abstract-view.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
-const createOfferTemplate = (offer, isChecked) => `
+
+const createOfferTemplate = (offer) => `
   <li class="event__offer">
     <span class="event__offer-title">${offer.title}</span>
     &plus;&euro;&nbsp;
@@ -13,16 +14,16 @@ const createEventTemplate = (point, destination, pointOffers) => {
   const date = new Date(dateFrom);
   const month = date.toLocaleString('en', {month: 'short'}).toUpperCase();
   const day = date.getDate();
-  
+
   const startTime = new Date(dateFrom).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
   const endTime = new Date(dateTo).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
-  
+
   const duration = calculateDuration(dateFrom, dateTo);
-  
+
   const offersTemplate = pointOffers
     .map((offer) => createOfferTemplate(offer))
     .join('');
-  
+
   const favoriteClass = isFavorite ? 'event__favorite-btn--active' : '';
 
   return `
@@ -66,10 +67,10 @@ function calculateDuration(dateFrom, dateTo) {
   const start = new Date(dateFrom);
   const end = new Date(dateTo);
   const diff = end - start;
-  
+
   const hours = Math.floor(diff / (1000 * 60 * 60));
   const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-  
+
   if (hours === 0) {
     return `${minutes}M`;
   } else if (minutes === 0) {
@@ -80,14 +81,20 @@ function calculateDuration(dateFrom, dateTo) {
 }
 
 export default class EventView extends AbstractView {
-  constructor(point, destination, offers) {
+  constructor(point, destination, offers, onEditClick) {
     super();
     this.point = point;
     this.destination = destination;
     this.offers = offers;
+    this._onEditClick = onEditClick;
   }
 
   get template() {
     return createEventTemplate(this.point, this.destination, this.offers);
+  }
+
+  setEventListeners() {
+    this.element.querySelector('.event__rollup-btn')
+      .addEventListener('click', this._onEditClick);
   }
 }
