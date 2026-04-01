@@ -1,8 +1,8 @@
 import AbstractView from '../framework/view/abstract-view.js';
 
 const createEditFormTemplate = (point, destination, offers) => {
-  const {type, basePrice, dateFrom, dateTo, isFavorite} = point;
-  
+  const {type, basePrice, dateFrom, dateTo} = point;
+
   const createOfferSelectorTemplate = (offer, isChecked) => `
     <div class="event__offer-selector">
       <input class="event__offer-checkbox  visually-hidden" 
@@ -22,7 +22,6 @@ const createEditFormTemplate = (point, destination, offers) => {
     .map((offer) => createOfferSelectorTemplate(offer, point.offersIds.includes(offer.id)))
     .join('');
 
-  const favoriteClass = isFavorite ? 'event__favorite-btn--active' : '';
 
   return `
     <li class="trip-events__item">
@@ -153,7 +152,7 @@ function formatDate(dateString) {
   const year = String(date.getFullYear()).slice(2);
   const hours = String(date.getHours()).padStart(2, '0');
   const minutes = String(date.getMinutes()).padStart(2, '0');
-  
+
   return `${day}/${month}/${year} ${hours}:${minutes}`;
 }
 

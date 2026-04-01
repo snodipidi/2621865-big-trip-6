@@ -27,7 +27,7 @@ export default class MainPresenter {
 
   _renderPoints() {
     const points = this.model.getPoints();
-    
+
     points.forEach((point) => {
       this._renderPoint(point);
     });

@@ -1,11 +1,11 @@
 import {destinations} from './destinations.js';
-import {offers} from './offers.js';
+import {offers as offersData} from './offers.js';
 import {points} from './points.js';
 
 class Model {
   constructor() {
     this.destinations = destinations;
-    this.offers = offers;
+    this.offers = offersData;
     this.points = points;
   }
 
