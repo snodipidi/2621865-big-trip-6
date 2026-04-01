@@ -1,6 +1,7 @@
-import AbstractView from './abstract-view.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
-const createOfferTemplate = (offer, isChecked) => `
+
+const createOfferTemplate = (offer) => `
   <li class="event__offer">
     <span class="event__offer-title">${offer.title}</span>
     &plus;&euro;&nbsp;
@@ -80,14 +81,20 @@ function calculateDuration(dateFrom, dateTo) {
 }
 
 export default class EventView extends AbstractView {
-  constructor(point, destination, offers) {
+  constructor(point, destination, offers, onEditClick) {
     super();
     this.point = point;
     this.destination = destination;
     this.offers = offers;
+    this._onEditClick = onEditClick;
   }
 
   get template() {
     return createEventTemplate(this.point, this.destination, this.offers);
+  }
+
+  setEventListeners() {
+    this.element.querySelector('.event__rollup-btn')
+      .addEventListener('click', this._onEditClick);
   }
 }
